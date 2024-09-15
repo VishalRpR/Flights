@@ -1,4 +1,7 @@
+const { StatusCodes } = require("http-status-codes");
 const { Logger } = require("../config");
+const AppError = require("../utils/errors/app-error");
+
 
 
 
@@ -9,91 +12,71 @@ class CrudRepository{
 
     async create(data){
         console.log("inside repo")
-        try {
-
+      
             const response=await this.model.create(data);
             return response;
             
-        } catch (error) {
-            Logger.error("something wend wrong in the Crud repo:create");
-            throw error;
-
-            
-        }
+       
 
     }
 
 
 
     async destroy(data){
-        try {
+        
 
             const response=await this.model.destroy({
                 where:{
                     id:data
                 }
             });
+
+            if(!response) {
+                throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND);
+            }
             return response;
             
-        } catch (error) {
-            Logger.error("something wend wrong in the Crud repo:destroy");
-            throw error;
-
-            
-        }
+       
 }
 
 
 
 
 async get(data){
-    try {
+    
 
-        const response=await this.model.findByPK(data)
+        const response=await this.model.findByPk(data);
+        if(!response) {
+            throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND);
+        }
         return response;
         
-    } catch (error) {
-        Logger.error("something wend wrong in the Crud repo:create");
-        throw error;
-
-        
-    }
+    
 }
 
 
 
 
 async getAll(){
-    try {
 
         const response=await this.model.findAll()
         return response;
         
-    } catch (error) {
-        Logger.error("something wend wrong in the Crud repo:create");
-        throw error;
-
-        
-    }
+   
 }
 
 
-async update(data){//data-->{col:value,.....}
-    try {
-
+async update(id,data){//data-->{col:value,.....}
+   
         const response=await this.model.update(data,{
             where:{
-               
+
+               id:id
             }
         });
         return response;
         
-    } catch (error) {
-        Logger.error("something wend wrong in the Crud repo:create");
-        throw error;
-
-        
-    }
+   
 }
 }
 

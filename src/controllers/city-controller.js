@@ -1,18 +1,17 @@
-const {AirplaneService}=require('../services');
+const {CityService}=require('../services');
 const{ StatusCodes }=require('http-status-codes');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
 
-async function createAirplane(req,res){
+async function createCity(req,res){
 try {
 
     console.log("inside controller")
-    const airplane=await AirplaneService.createAirplane({
-        modelNumber:req.body.modelNumber,
-        capacity:req.body.capacity
+    const city=await CityService.createCity({
+        name:req.body.name
     })
 
-      SuccessResponse.data=airplane;
+      SuccessResponse.data=city
     return res
     .status(StatusCodes.CREATED)
     .json(SuccessResponse);
@@ -30,10 +29,10 @@ try {
 }
 
 
-async function getAirplanes(req,res){
+async function getCities(req,res){
     try {
-        const airplanes= await AirplaneService.getAirplanes();
-        SuccessResponse.data=airplanes;
+        const cities= await CityService.getCities();
+        SuccessResponse.data=cities;
         return res
         .status(StatusCodes.OK)
         .json(SuccessResponse);
@@ -54,12 +53,12 @@ async function getAirplanes(req,res){
 }
 
 
-async function getAirplane(req,res){
+async function getCity(req,res){
     try {
         
      
-        const airplane= await AirplaneService.getAirplane(req.params.id);
-        SuccessResponse.data=airplane;
+        const city= await CityService.getCity(req.params.id);
+        SuccessResponse.data=city;
         return res
         .status(StatusCodes.OK)
         .json(SuccessResponse);
@@ -79,12 +78,12 @@ async function getAirplane(req,res){
 
 }
 
-async function deleteAirplane(req,res){
+async function deleteCity(req,res){
     try {
         
      
-        const airplane= await AirplaneService.deleteAirplane(req.params.id);
-        SuccessResponse.data=airplane;
+        const city= await CityService.deleteCity(req.params.id);
+        SuccessResponse.data=city;
         return res
         .status(StatusCodes.OK)
         .json(SuccessResponse);
@@ -105,8 +104,8 @@ async function deleteAirplane(req,res){
 }
 
 module.exports={
-    createAirplane,
-    getAirplanes,
-    getAirplane,
-    deleteAirplane
+    createCity,
+    getCities,
+    getCity,
+    deleteCity
 }
