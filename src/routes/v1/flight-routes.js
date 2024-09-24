@@ -12,5 +12,7 @@ router.post('/',
         FlightMiddlewares.validateCreaterequest,
         flightController.createFlight)
 
-
+router.get('/',
+         flightController.getAllFlights)
+         
 module.exports=router;
