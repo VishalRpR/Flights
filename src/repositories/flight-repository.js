@@ -1,5 +1,5 @@
 
-const {Flight,Airport,Airplane}= require('../models');
+const {Flight,Airport,Airplane,City}= require('../models');
 const {Sequelize}=require('sequelize');
 const CrudRepository=require("./crud-repository");
 
@@ -31,6 +31,12 @@ async getAllFlights(filter,sort){
                 on : {
                     col1: Sequelize.where(Sequelize.col("Flight.departureAirportId"), "=", Sequelize.col("departureAirport.code"))
                 },
+                include:
+                {
+                    model:City,
+                    required:true
+                }
+                
             },
             {
                 model: Airport,
@@ -39,9 +45,18 @@ async getAllFlights(filter,sort){
                 on : {
                     col1: Sequelize.where(Sequelize.col("Flight.arrivalAirportId"), "=", Sequelize.col("arrivalAirport.code"))
                 },
+                include:
+                {
+                    model:City,
+                    required:true
+                }
             }
-        ]
+        ],
+     
+            
+        
     })
+
 
     return response;
     
