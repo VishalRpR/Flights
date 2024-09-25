@@ -88,10 +88,26 @@ console.log(customFilter, sortFilter);
 
 }
 
+async function getFlight(data){
+
+  try {
+      console.log("inside service")
+      const flight=await flightRepository.get(data);
+      return flight;
+      
+  } catch (error) {
+    if(error.statusCode == StatusCodes.NOT_FOUND) {
+      throw new AppError('The flight you requested is not present', error.statusCode);
+  }
+  throw new AppError('Cannot fetch data of all the flight', StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+  
+}
 
 
 
 module.exports={
     createFlight,
-    getAllFlights
+    getAllFlights,
+    getFlight
 };
