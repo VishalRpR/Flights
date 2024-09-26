@@ -3,11 +3,7 @@ const {Flight,Airport,Airplane,City}= require('../models');
 const {Sequelize}=require('sequelize');
 const CrudRepository=require("./crud-repository");
 const db = require('../models');
-<<<<<<< HEAD
-=======
 const { addRowLockOnFlights } = require('./queries');
->>>>>>> a435bd7 (FIX:fixed the lock bug)
-
 
 class FlightRepository extends CrudRepository{
 
@@ -93,39 +89,5 @@ async updateRemainingSeats(flightId,seats,dec=true){
   }
 
 }
-
-
-
-
-
-
-
-
-
-async updateRemainingSeats(flightId,seats,dec=true){
-    console.log(flightId,seats,dec)
- 
-
-    await db.sequelize.query(addRowLockOnFlights(flightId));
-
-    const flight=await Flight.findByPk(flightId);
-    console.log(dec)
-    if(+dec){
-      await flight.decrement('totalSeats',{by:seats});
-      
-    }else{
-      await flight.increment('totalSeats',{by:seats});
-  
-    }
-  
-    return flight
-    
-  }
-
-}
-
-
-
-
 
 module.exports=FlightRepository;
